@@ -632,20 +632,15 @@ class TextEditorState extends State<TextEditor> {
     if (!showClearOption) {
       return decoration;
     }
-    final suffix = PlatformInfo.isCupertino
-        ? CupertinoButton(
-            padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 5, 2),
-            child: const Icon(
-              CupertinoIcons.xmark_circle_fill,
-              size: 20.0,
-              color: CupertinoColors.secondaryLabel,
-            ),
-            onPressed: () => _textEditingController.text = '',
-          )
-        : IconButton(
-            icon: const Icon(Icons.clear),
-            onPressed: () => _textEditingController.text = '',
-          );
+    final suffix = CupertinoButton(
+      padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 5, 2),
+      child: const Icon(
+        CupertinoIcons.xmark_circle_fill,
+        size: 20.0,
+        color: CupertinoColors.secondaryLabel,
+      ),
+      onPressed: () => _textEditingController.text = '',
+    );
     if (decoration == null) {
       return InputDecoration(suffix: suffix);
     } else {
