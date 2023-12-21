@@ -506,13 +506,11 @@ class TextEditorState extends State<TextEditor> {
     final controller = widget.controller;
     if (controller != null) {
       _textEditingController = controller;
-      if (controller.text != widget.initialContent &&
-          widget.initialContent.isNotEmpty) {
+      if (controller.text != widget.initialContent && widget.initialContent.isNotEmpty) {
         controller.text = widget.initialContent;
       }
     } else {
-      _textEditingController =
-          TextEditingController(text: widget.initialContent);
+      _textEditingController = TextEditingController(text: widget.initialContent);
     }
     _api = TextEditorApi(this, _textEditingController, _focusNode);
     final callback = widget.onCreated;
@@ -553,15 +551,13 @@ class TextEditorState extends State<TextEditor> {
     final textSelectionMenuItems = widget.textSelectionMenuItems ?? [];
     final api = _api;
 
-    return DecoratedPlatformTextField(
+    return TextField(
       controller: _textEditingController,
       focusNode: _focusNode,
       maxLines: widget.maxLines,
       minLines: widget.minLines,
       expands: widget.expands,
       decoration: buildInputDecoration(context),
-      cupertinoAlignLabelOnTop: widget.cupertinoAlignLabelOnTop,
-      cupertinoSuffixMode: OverlayVisibilityMode.editing,
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
       inputFormatters: widget.inputFormatters,
@@ -611,10 +607,8 @@ class TextEditorState extends State<TextEditor> {
           if (widget.addEditorSelectionMenuItems) ...{
             PlatformTextSelectionItem('𝗕', (delegate) => api.formatBold()),
             PlatformTextSelectionItem('𝑰', (delegate) => api.formatItalic()),
-            PlatformTextSelectionItem(
-                'U̲', (delegate) => api.formatUnderline()),
-            PlatformTextSelectionItem(
-                'T̶', (delegate) => api.formatStrikeThrough()),
+            PlatformTextSelectionItem('U̲', (delegate) => api.formatUnderline()),
+            PlatformTextSelectionItem('T̶', (delegate) => api.formatStrikeThrough()),
             PlatformTextSelectionItem(
               widget.fontSymbol,
               (delegate) {
@@ -622,12 +616,10 @@ class TextEditorState extends State<TextEditor> {
                 FontSelector.show(context: context, api: api);
               },
             ),
-            PlatformTextSelectionItem(
-                '✕', (delegate) => delegate.hideToolbar(false)),
+            PlatformTextSelectionItem('✕', (delegate) => delegate.hideToolbar(false)),
           },
           for (final item in textSelectionMenuItems) ...{
-            PlatformTextSelectionItem(
-                item.label, (delegate) => item.action(_api)),
+            PlatformTextSelectionItem(item.label, (delegate) => item.action(_api)),
           }
         ],
       ),
@@ -702,19 +694,16 @@ class FontSelector {
     overlay.insert(entry);
   }
 
-  static OverlayEntry buildOverlayEntry(
-      BuildContext context, Function(UnicodeFont? font) callback) {
+  static OverlayEntry buildOverlayEntry(BuildContext context, Function(UnicodeFont? font) callback) {
     final viewInsets = EdgeInsets.fromWindowPadding(
-        WidgetsBinding.instance.window.viewInsets,
-        WidgetsBinding.instance.window.devicePixelRatio);
+        WidgetsBinding.instance.window.viewInsets, WidgetsBinding.instance.window.devicePixelRatio);
     final size = MediaQuery.of(context).size;
     const horizontalPadding = 36.0;
     const verticalPadding = 8.0;
     final left = viewInsets.left + horizontalPadding;
     final top = viewInsets.top + verticalPadding;
     final width = min(size.width - 2 * horizontalPadding, 200.0);
-    final height =
-        max(size.height - (viewInsets.bottom + 2 * verticalPadding), 200.0);
+    final height = max(size.height - (viewInsets.bottom + 2 * verticalPadding), 200.0);
     // print(
     //     'viewInsets: $viewInsets size: $size left: $left top: $top width: $width height: $height');
     return OverlayEntry(
@@ -933,8 +922,7 @@ class PlatformTextSelectionItem {
 
 class PlatformTextSelectionControls {
   static TextSelectionControls create(
-      {bool includeSystemEntries = true,
-      required List<PlatformTextSelectionItem> customEntries}) {
+      {bool includeSystemEntries = true, required List<PlatformTextSelectionItem> customEntries}) {
     if (PlatformInfo.isCupertino) {
       return _CupertinoTextSelectionControls(
         includeStandardEntries: includeSystemEntries,
@@ -971,8 +959,7 @@ const double _kArrowScreenPadding = 26.0;
 class _CupertinoTextSelectionControls extends TextSelectionControls {
   final List<PlatformTextSelectionItem> customEntries;
   final bool includeStandardEntries;
-  _CupertinoTextSelectionControls(
-      {this.includeStandardEntries = true, required this.customEntries});
+  _CupertinoTextSelectionControls({this.includeStandardEntries = true, required this.customEntries});
 
   /// Returns the size of the Cupertino handle.
   @override
@@ -999,14 +986,10 @@ class _CupertinoTextSelectionControls extends TextSelectionControls {
       clipboardStatus: clipboardStatus,
       endpoints: endpoints,
       globalEditableRegion: globalEditableRegion,
-      handleCut:
-          canCut(delegate) ? () => handleCut(delegate, clipboardStatus) : null,
-      handleCopy: canCopy(delegate)
-          ? () => handleCopy(delegate, clipboardStatus)
-          : null,
+      handleCut: canCut(delegate) ? () => handleCut(delegate, clipboardStatus) : null,
+      handleCopy: canCopy(delegate) ? () => handleCopy(delegate, clipboardStatus) : null,
       handlePaste: canPaste(delegate) ? () => handlePaste(delegate) : null,
-      handleSelectAll:
-          canSelectAll(delegate) ? () => handleSelectAll(delegate) : null,
+      handleSelectAll: canSelectAll(delegate) ? () => handleSelectAll(delegate) : null,
       selectionMidpoint: selectionMidpoint,
       textLineHeight: textLineHeight,
       customEntries: customEntries,
@@ -1017,8 +1000,7 @@ class _CupertinoTextSelectionControls extends TextSelectionControls {
 
   /// Builder for iOS text selection edges.
   @override
-  Widget buildHandle(
-      BuildContext context, TextSelectionHandleType type, double textLineHeight,
+  Widget buildHandle(BuildContext context, TextSelectionHandleType type, double textLineHeight,
       [VoidCallback? onTap, double? startGlyphHeight, double? endGlyphHeight]) {
     // iOS selection handles do not respond to taps.
 
@@ -1031,8 +1013,7 @@ class _CupertinoTextSelectionControls extends TextSelectionControls {
     final Widget handle;
 
     final Widget customPaint = CustomPaint(
-      painter: _CupertinoTextSelectionHandlePainter(
-          CupertinoTheme.of(context).primaryColor),
+      painter: _CupertinoTextSelectionHandlePainter(CupertinoTheme.of(context).primaryColor),
     );
 
     // [buildHandle]'s widget is positioned at the selection cursor's bottom
@@ -1091,9 +1072,7 @@ class _CupertinoTextSelectionControls extends TextSelectionControls {
         handleSize = getHandleSize(endGlyphHeight);
         return Offset(
           handleSize.width / 2,
-          handleSize.height -
-              2 * _kSelectionHandleRadius +
-              _kSelectionHandleOverlap,
+          handleSize.height - 2 * _kSelectionHandleRadius + _kSelectionHandleOverlap,
         );
       // A collapsed handle anchors itself so that it's centered.
       case TextSelectionHandleType.collapsed:
@@ -1135,8 +1114,7 @@ class _CupertinoTextSelectionHandlePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_CupertinoTextSelectionHandlePainter oldPainter) =>
-      color != oldPainter.color;
+  bool shouldRepaint(_CupertinoTextSelectionHandlePainter oldPainter) => color != oldPainter.color;
 }
 
 // Generates the child that's passed into CupertinoTextSelectionToolbar.
@@ -1171,12 +1149,10 @@ class _CupertinoTextSelectionControlsToolbar extends StatefulWidget {
   final bool includeStandardEntries;
 
   @override
-  _CupertinoTextSelectionControlsToolbarState createState() =>
-      _CupertinoTextSelectionControlsToolbarState();
+  _CupertinoTextSelectionControlsToolbarState createState() => _CupertinoTextSelectionControlsToolbarState();
 }
 
-class _CupertinoTextSelectionControlsToolbarState
-    extends State<_CupertinoTextSelectionControlsToolbar> {
+class _CupertinoTextSelectionControlsToolbarState extends State<_CupertinoTextSelectionControlsToolbar> {
   ClipboardStatusNotifier? _clipboardStatus;
 
   void _onChangedClipboardStatus() {
@@ -1227,8 +1203,7 @@ class _CupertinoTextSelectionControlsToolbarState
   @override
   Widget build(BuildContext context) {
     // Don't render the menu until the state of the clipboard is known.
-    if (widget.handlePaste != null &&
-        _clipboardStatus!.value == ClipboardStatus.unknown) {
+    if (widget.handlePaste != null && _clipboardStatus!.value == ClipboardStatus.unknown) {
       return const SizedBox(width: 0.0, height: 0.0);
     }
 
@@ -1238,8 +1213,7 @@ class _CupertinoTextSelectionControlsToolbarState
     // The toolbar should appear below the TextField when there is not enough
     // space above the TextField to show it, assuming there's always enough
     // space at the bottom in this case.
-    final double anchorX =
-        (widget.selectionMidpoint.dx + widget.globalEditableRegion.left).clamp(
+    final double anchorX = (widget.selectionMidpoint.dx + widget.globalEditableRegion.left).clamp(
       _kArrowScreenPadding + mediaQuery.padding.left,
       mediaQuery.size.width - mediaQuery.padding.right - _kArrowScreenPadding,
     );
@@ -1250,9 +1224,7 @@ class _CupertinoTextSelectionControlsToolbarState
     // going to be facing up or down.
     final Offset anchorAbove = Offset(
       anchorX,
-      widget.endpoints.first.point.dy -
-          widget.textLineHeight +
-          widget.globalEditableRegion.top,
+      widget.endpoints.first.point.dy - widget.textLineHeight + widget.globalEditableRegion.top,
     );
     final Offset anchorBelow = Offset(
       anchorX,
@@ -1260,10 +1232,8 @@ class _CupertinoTextSelectionControlsToolbarState
     );
 
     final List<Widget> items = <Widget>[];
-    final CupertinoLocalizations localizations =
-        CupertinoLocalizations.of(context);
-    final Widget onePhysicalPixelVerticalDivider =
-        SizedBox(width: 1.0 / MediaQuery.of(context).devicePixelRatio);
+    final CupertinoLocalizations localizations = CupertinoLocalizations.of(context);
+    final Widget onePhysicalPixelVerticalDivider = SizedBox(width: 1.0 / MediaQuery.of(context).devicePixelRatio);
 
     void addToolbarButton(
       String text,
@@ -1286,13 +1256,11 @@ class _CupertinoTextSelectionControlsToolbarState
       if (widget.handleCopy != null) {
         addToolbarButton(localizations.copyButtonLabel, widget.handleCopy!);
       }
-      if (widget.handlePaste != null &&
-          _clipboardStatus!.value == ClipboardStatus.pasteable) {
+      if (widget.handlePaste != null && _clipboardStatus!.value == ClipboardStatus.pasteable) {
         addToolbarButton(localizations.pasteButtonLabel, widget.handlePaste!);
       }
       if (widget.handleSelectAll != null) {
-        addToolbarButton(
-            localizations.selectAllButtonLabel, widget.handleSelectAll!);
+        addToolbarButton(localizations.selectAllButtonLabel, widget.handleSelectAll!);
       }
     }
     for (final entry in widget.customEntries) {
@@ -1319,8 +1287,7 @@ class _MaterialTextSelectionControls extends MaterialTextSelectionControls {
 
   final List<PlatformTextSelectionItem> customEntries;
   final bool includeStandardEntries;
-  _MaterialTextSelectionControls(
-      {this.includeStandardEntries = true, required this.customEntries});
+  _MaterialTextSelectionControls({this.includeStandardEntries = true, required this.customEntries});
 
   /// Builder for material-style copy/paste text selection toolbar.
   @override
@@ -1336,19 +1303,12 @@ class _MaterialTextSelectionControls extends MaterialTextSelectionControls {
   ) {
     // super.buildToolbar(context, globalEditableRegion, textLineHeight, selectionMidpoint, endpoints, delegate, clipboardStatus, lastSecondaryTapDownPosition)
     final TextSelectionPoint startTextSelectionPoint = endpoints[0];
-    final TextSelectionPoint endTextSelectionPoint =
-        endpoints.length > 1 ? endpoints[1] : endpoints[0];
-    final Offset anchorAbove = Offset(
-        globalEditableRegion.left + selectionMidpoint.dx,
-        globalEditableRegion.top +
-            startTextSelectionPoint.point.dy -
-            textLineHeight -
-            _kToolbarContentDistance);
+    final TextSelectionPoint endTextSelectionPoint = endpoints.length > 1 ? endpoints[1] : endpoints[0];
+    final Offset anchorAbove = Offset(globalEditableRegion.left + selectionMidpoint.dx,
+        globalEditableRegion.top + startTextSelectionPoint.point.dy - textLineHeight - _kToolbarContentDistance);
     final Offset anchorBelow = Offset(
       globalEditableRegion.left + selectionMidpoint.dx,
-      globalEditableRegion.top +
-          endTextSelectionPoint.point.dy +
-          _kToolbarContentDistanceBelow,
+      globalEditableRegion.top + endTextSelectionPoint.point.dy + _kToolbarContentDistanceBelow,
     );
 
     return _MaterialTextSelectionToolbar(
@@ -1358,14 +1318,10 @@ class _MaterialTextSelectionControls extends MaterialTextSelectionControls {
       anchorAbove: anchorAbove,
       anchorBelow: anchorBelow,
       clipboardStatus: clipboardStatus,
-      handleCopy: canCopy(delegate)
-          ? () => handleCopy(delegate, clipboardStatus)
-          : null,
-      handleCut:
-          canCut(delegate) ? () => handleCut(delegate, clipboardStatus) : null,
+      handleCopy: canCopy(delegate) ? () => handleCopy(delegate, clipboardStatus) : null,
+      handleCut: canCut(delegate) ? () => handleCut(delegate, clipboardStatus) : null,
       handlePaste: canPaste(delegate) ? () => handlePaste(delegate) : null,
-      handleSelectAll:
-          canSelectAll(delegate) ? () => handleSelectAll(delegate) : null,
+      handleSelectAll: canSelectAll(delegate) ? () => handleSelectAll(delegate) : null,
     );
   }
 }
@@ -1398,12 +1354,10 @@ class _MaterialTextSelectionToolbar extends StatefulWidget {
   final VoidCallback? handleSelectAll;
 
   @override
-  _MaterialTextSelectionToolbarState createState() =>
-      _MaterialTextSelectionToolbarState();
+  _MaterialTextSelectionToolbarState createState() => _MaterialTextSelectionToolbarState();
 }
 
-class _MaterialTextSelectionToolbarState
-    extends State<_MaterialTextSelectionToolbar> {
+class _MaterialTextSelectionToolbarState extends State<_MaterialTextSelectionToolbar> {
   void _onChangedClipboardStatus() {
     setState(() {
       // Inform the widget that the value of clipboardStatus has changed.
@@ -1438,8 +1392,7 @@ class _MaterialTextSelectionToolbarState
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterialLocalizations(context));
-    final MaterialLocalizations localizations =
-        MaterialLocalizations.of(context);
+    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
 
     final toolbarItems = [
       if (widget.includeStandardEntries) ...{
@@ -1453,8 +1406,7 @@ class _MaterialTextSelectionToolbarState
             label: localizations.copyButtonLabel,
             onPressed: widget.handleCopy,
           ),
-        if (widget.handlePaste != null &&
-            widget.clipboardStatus?.value == ClipboardStatus.pasteable)
+        if (widget.handlePaste != null && widget.clipboardStatus?.value == ClipboardStatus.pasteable)
           _TextSelectionToolbarItemData(
             label: localizations.pasteButtonLabel,
             onPressed: widget.handlePaste,

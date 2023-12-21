@@ -1,9 +1,8 @@
-import 'package:enough_platform_widgets/enough_platform_widgets.dart';
+import 'package:enough_ascii_art/enough_ascii_art.dart';
 import 'package:flutter/material.dart';
 
 import '../editor_api.dart';
 import 'base.dart';
-import 'package:enough_ascii_art/enough_ascii_art.dart';
 
 /// Controls the font family name of the current / selected text.
 ///
@@ -44,7 +43,7 @@ class _FontFamilyDropdownState extends State<FontFamilyDropdown> {
   @override
   Widget build(BuildContext context) {
     const selectedTextStyle = TextStyle(fontSize: 12);
-    return PlatformDropdownButton<UnicodeFont>(
+    return DropdownButton<UnicodeFont>(
       value: _currentFont,
       onChanged: (value) {
         if (value != null) {
@@ -54,6 +53,7 @@ class _FontFamilyDropdownState extends State<FontFamilyDropdown> {
           _api.setFont(value);
         }
       },
+      underline: const SizedBox(),
       selectedItemBuilder: (context) => UnicodeFont.values
           .map(
             (font) => Center(

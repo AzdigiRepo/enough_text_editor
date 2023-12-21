@@ -47,8 +47,9 @@ class _BaseFormatButtonsState extends State<BaseFormatButtons> {
   @override
   Widget build(BuildContext context) {
     final api = _api;
-    return PlatformToggleButtons(
-      onPressed: (int index) {
+    return CupertinoMultipleSegmentedControl(
+      borderColor: const Color(0xFFbdbdbd),
+      onPressed: (index) {
         switch (index) {
           case 0:
             api.formatBold();
@@ -68,12 +69,11 @@ class _BaseFormatButtonsState extends State<BaseFormatButtons> {
         });
       },
       isSelected: _isSelected,
-      cupertinoPadding: const EdgeInsets.symmetric(horizontal: 8.0),
       children: [
-        Icon(CommonPlatformIcons.bold),
-        Icon(CommonPlatformIcons.italic),
-        Icon(CommonPlatformIcons.underlined),
-        Icon(CommonPlatformIcons.strikethrough),
+        Icon(CommonPlatformIcons.bold, color: Colors.black),
+        Icon(CommonPlatformIcons.italic, color: Colors.black),
+        Icon(CommonPlatformIcons.underlined, color: Colors.black),
+        Icon(CommonPlatformIcons.strikethrough, color: Colors.black),
       ],
     );
   }
